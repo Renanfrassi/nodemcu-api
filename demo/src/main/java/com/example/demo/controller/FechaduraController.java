@@ -4,6 +4,7 @@ import com.example.demo.model.Fechadura;
 import com.example.demo.service.FechaduraService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,22 +23,24 @@ public class FechaduraController {
     private FechaduraService fechadura;
 
     @GetMapping
-    public Iterable<Fechadura> seachCartao(){
+    public ResponseEntity seachCartao(){
        return fechadura.findAll();
     }
 
     @PostMapping
-    public String addFechadura(@RequestBody Fechadura f){
-       return fechadura.addFechadura(new Fechadura(f.getId(), f.getDescricao()));
-    }   
+    public ResponseEntity addFechadura(@RequestBody Fechadura f){
+
+        return fechadura.addFechadura(f);
+
+    }
     
     @PutMapping
-    public String updateFechadura(@RequestBody Fechadura f){
+    public ResponseEntity updateFechadura(@RequestBody Fechadura f){
       return fechadura.updateFechadura(f);
     }
 
     @DeleteMapping
-    public String deleteFechadura(@RequestParam String id){
+    public String deleteFechadura(@RequestParam Integer id){
        return fechadura.deleteFechadura(id);
     }
 }

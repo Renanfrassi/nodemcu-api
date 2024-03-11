@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.model.DTO.SlotDTO;
 import com.example.demo.model.Slot;
 import com.example.demo.service.SlotService;
 
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +27,6 @@ public class SlotController {
        return slotService.findAll();
     }
 
-    @PostMapping
-    public String addSlot(@RequestBody Slot s){
-       return slotService.addSlot(s);
-    }
-
     @PutMapping
     public String updateSlot(@RequestBody Slot s){
       return slotService.updateSlot(s);
@@ -40,6 +35,11 @@ public class SlotController {
     @DeleteMapping
     public String deleteSlot(@RequestParam String id){
        return slotService.deleteSlot(id);
+    }
+
+    @GetMapping("find-reserva")
+    public Iterable<SlotDTO> findSlotByCartaoFechadura(@RequestParam String idCartao, @RequestParam Integer idFechadura){
+        return slotService.findSlotByCartaoFechadura(idCartao, idFechadura);
     }
     
 }

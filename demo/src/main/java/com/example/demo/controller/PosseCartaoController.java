@@ -1,9 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.DTO.PosseCartaoDTO;
 import com.example.demo.model.PosseCartao;
+import com.example.demo.model.PosseCartaoKey;
 import com.example.demo.service.PosseCartaoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,22 +25,23 @@ public class PosseCartaoController {
     private PosseCartaoService posseCartaoService;
 
     @GetMapping
-    public Iterable<PosseCartao> seachPosseCartao(){
+    public ResponseEntity seachPosseCartao(){
        return posseCartaoService.findAll();
     }
 
     @PostMapping
-    public String addPosseCartao(@RequestBody PosseCartao p){
-       return posseCartaoService.addPosseCartao(p);
+    public ResponseEntity addPosseCartao(@RequestBody PosseCartaoDTO p){
+
+        return posseCartaoService.addPosseCartao(p);
     }
 
     @PutMapping
-    public String updatePosseCartao(@RequestBody PosseCartao p){
+    public ResponseEntity updatePosseCartao(@RequestBody PosseCartaoDTO p){
       return posseCartaoService.updatePosseCartao(p);
     }
 
     @DeleteMapping
-    public String deletePosseCartao(@RequestParam String id){
+    public String deletePosseCartao(@RequestParam PosseCartaoKey id){
        return posseCartaoService.deletePosseCartao(id);
     }
     

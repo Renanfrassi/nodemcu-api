@@ -9,13 +9,12 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter 
-@Setter
 @Embeddable
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class PosseCartaoKey implements Serializable{
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,32 +23,7 @@ public class PosseCartaoKey implements Serializable{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cartao", referencedColumnName = "id")
-    private Cartao cartao;
+    private Cartao idCartao;
 
-    public PosseCartaoKey() {
-    }
-
-    public PosseCartaoKey(Usuario idUsuario, Cartao cartao) {
-        this.idUsuario = idUsuario;
-        this.cartao = cartao;
-    }
-
-    public Usuario getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public Cartao getCartao() {
-        return cartao;
-    }
-
-    public void setCartao(Cartao cartao) {
-        this.cartao = cartao;
-    }
-
-    
 
 }

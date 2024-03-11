@@ -2,10 +2,12 @@ package com.example.demo.controller;
 
 
 
+import com.example.demo.model.DTO.PermissoesDTO;
 import com.example.demo.model.Permissoes;
 import com.example.demo.service.PermissoesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,17 +27,12 @@ public class PermissoesController {
     private PermissoesService permissoesService;
 
     @GetMapping
-    public Iterable<Permissoes> seachPermissoes(){
+    public ResponseEntity seachPermissoes(){
        return permissoesService.findAll();
     }
 
-    @GetMapping("liberado/{idCartao}/{idFechadura}")
-    public boolean seachPermissaoPorCartaoFechadura(@PathVariable("idCartao") String idCartao, @PathVariable("idFechadura") String idFechadura){
-       return permissoesService.seachPermissaoPorCartaoFechadura(idCartao, idFechadura);
-    }
-
     @PostMapping
-    public String addPermissoes(@RequestBody Permissoes p){
+    public ResponseEntity addPermissoes(@RequestBody PermissoesDTO p){
        return permissoesService.addPermissoes(p);
     }
 

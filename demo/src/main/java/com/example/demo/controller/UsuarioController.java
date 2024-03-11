@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.DTO.UsuarioSlotDTO;
 import com.example.demo.model.Usuario;
 import com.example.demo.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,17 +24,26 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public Iterable<Usuario> seachUsuario(){
+    public ResponseEntity seachUsuario(){
        return usuarioService.findAll();
     }
 
+    @GetMapping("find")
+    public ResponseEntity findUsuarioById(@RequestParam Integer id){
+        return usuarioService.findUsuarioById(id);
+    }
+
     @PostMapping
-    public String addUsuario(@RequestBody Usuario u){
+    public ResponseEntity addUsuario(@RequestBody Usuario u){
        return usuarioService.addUsuario(u);
     }
 
+    @PostMapping("slot")
+    public ResponseEntity addSlot(@RequestBody UsuarioSlotDTO usuarioSlotDTO){
+        return usuarioService.addSlot(usuarioSlotDTO);
+    }
     @PutMapping
-    public String updateUsuario(@RequestBody Usuario u){
+    public ResponseEntity updateUsuario(@RequestBody Usuario u){
       return usuarioService.updateUsuario(u);
     }
 
@@ -40,5 +51,10 @@ public class UsuarioController {
     public String deleteUsuario(@RequestParam int id){
        return usuarioService.deleteUsuario(id);
     }
-    
+
+    @GetMapping("slot")
+    public ResponseEntity findUsuarioPermissaoId(@RequestParam Integer idUsuario,@RequestParam String idCartao){
+        return usuarioService.findUsuarioPermissaoId(idUsuario, idCartao);
+    }
+
 }

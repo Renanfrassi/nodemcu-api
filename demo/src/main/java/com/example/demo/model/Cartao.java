@@ -9,14 +9,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "cartao")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Cartao implements Serializable {
     @Id
     @Column(name = "id")
@@ -24,40 +23,5 @@ public class Cartao implements Serializable {
     
     @Column(name = "status_entrada")
     private boolean statusEntrada;
-
-    public Cartao(String id, boolean statusEntrada) {
-        this.id = id;
-        this.statusEntrada = statusEntrada;
-    }
-
-    public Cartao() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public boolean isStatusEntrada() {
-        return statusEntrada;
-    }
-
-    public void setStatusEntrada(boolean statusEntrada) {
-        this.statusEntrada = statusEntrada;
-    }
-
-    
-
-
-    // @OneToMany(mappedBy = "cartao")
-    // private Set<Permissoes> permissao;
-
-    // @OneToMany(mappedBy = "cartao")
-    // private Set<PosseCartao> posseCartaos;
-
-    
 
 }
