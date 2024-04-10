@@ -52,8 +52,8 @@ public class PosseCartaoService {
             }
 
             PosseCartaoKey chave = new PosseCartaoKey();
-            chave.setIdUsuario(usuarioService.findById(pDTO.getIdUsuario()).get());
-            chave.setIdCartao(cartaoService.findById(pDTO.getIdCartao()).get());
+            chave.setUsuario(usuarioService.findById(pDTO.getIdUsuario()).get());
+            chave.setCartao(cartaoService.findById(pDTO.getIdCartao()).get());
 
             PosseCartao p = new PosseCartao();
             p.setId(chave);
@@ -91,8 +91,8 @@ public class PosseCartaoService {
             }
 
             PosseCartaoKey chave = new PosseCartaoKey();
-            chave.setIdUsuario(usuarioService.findById(pDTO.getIdUsuario()).get());
-            chave.setIdCartao(cartaoService.findById(pDTO.getIdCartao()).get());
+            chave.setUsuario(usuarioService.findById(pDTO.getIdUsuario()).get());
+            chave.setCartao(cartaoService.findById(pDTO.getIdCartao()).get());
 
             PosseCartao p = new PosseCartao();
             p.setId(chave);

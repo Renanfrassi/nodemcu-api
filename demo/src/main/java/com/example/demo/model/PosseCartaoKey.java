@@ -7,8 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.*;
 
 @Embeddable
@@ -19,11 +17,11 @@ public class PosseCartaoKey implements Serializable{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
-    private Usuario idUsuario;
+    private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cartao", referencedColumnName = "id")
-    private Cartao idCartao;
+    private Cartao cartao;
 
 
 }

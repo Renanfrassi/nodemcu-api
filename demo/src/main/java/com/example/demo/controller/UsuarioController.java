@@ -4,6 +4,8 @@ import com.example.demo.model.DTO.UsuarioSlotDTO;
 import com.example.demo.model.Usuario;
 import com.example.demo.service.UsuarioService;
 
+import java.rmi.StubNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,6 +44,7 @@ public class UsuarioController {
     public ResponseEntity addSlot(@RequestBody UsuarioSlotDTO usuarioSlotDTO){
         return usuarioService.addSlot(usuarioSlotDTO);
     }
+    
     @PutMapping
     public ResponseEntity updateUsuario(@RequestBody Usuario u){
       return usuarioService.updateUsuario(u);
@@ -54,7 +57,21 @@ public class UsuarioController {
 
     @GetMapping("slot")
     public ResponseEntity findUsuarioPermissaoId(@RequestParam Integer idUsuario,@RequestParam String idCartao){
-        return usuarioService.findUsuarioPermissaoId(idUsuario, idCartao);
+        //System.out.println("7777777777777777");
+
+        //System.out.println(idUsuario);
+        //System.out.println(idCartao);
+
+        ResponseEntity t = usuarioService.findUsuarioPermissaoId(idUsuario, idCartao);
+        return t;
+    }
+
+    @PutMapping("slot")
+    public ResponseEntity updateSlot(@RequestParam Integer idUsuario, @RequestBody UsuarioSlotDTO usuarioSlotDTO){
+        ResponseEntity t =  usuarioService.updateSlotUsuario(idUsuario,usuarioSlotDTO);
+        System.out.println("**********************");
+        System.out.println(t);
+        return t;
     }
 
 }

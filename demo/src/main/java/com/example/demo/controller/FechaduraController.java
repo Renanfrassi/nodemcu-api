@@ -29,8 +29,7 @@ public class FechaduraController {
 
     @PostMapping
     public ResponseEntity addFechadura(@RequestBody Fechadura f){
-
-        return fechadura.addFechadura(f);
+      return fechadura.addFechadura(f);
 
     }
     

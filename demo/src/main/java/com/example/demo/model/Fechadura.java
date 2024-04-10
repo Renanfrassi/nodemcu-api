@@ -27,4 +27,7 @@ public class Fechadura implements Serializable{
     @Column(name = "descricao")
     private String descricao;
 
+    public Fechadura(Integer id) {
+        this.id = id;
+    }
 }

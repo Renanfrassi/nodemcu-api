@@ -24,4 +24,7 @@ public class Cartao implements Serializable {
     @Column(name = "status_entrada")
     private boolean statusEntrada;
 
+    public Cartao(String id) {
+        this.id = id;
+    }
 }

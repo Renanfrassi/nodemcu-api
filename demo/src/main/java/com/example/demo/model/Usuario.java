@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.*;
 
 @Entity
@@ -21,7 +19,7 @@ import lombok.*;
 @Data
 public class Usuario implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     
     @Column(name = "nome")
@@ -31,7 +29,7 @@ public class Usuario implements Serializable{
     private int idade;
     
     @Column(name = "telefone")
-    private int telefone;
+    private String telefone;
 
     @Column(name = "matricula")
     private String matricula;
@@ -44,5 +42,5 @@ public class Usuario implements Serializable{
 
     @Column(name = "email")
     private String email;
-
+    
 }

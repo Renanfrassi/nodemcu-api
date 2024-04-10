@@ -24,7 +24,7 @@ public class SlotController {
 
     @GetMapping
     public Iterable<Slot> seachSlot(){
-       return slotService.findAll();
+      return slotService.findAll();
     }
 
     @PutMapping
@@ -34,12 +34,12 @@ public class SlotController {
 
     @DeleteMapping
     public String deleteSlot(@RequestParam String id){
-       return slotService.deleteSlot(id);
+      return slotService.deleteSlot(id);
     }
 
     @GetMapping("find-reserva")
     public Iterable<SlotDTO> findSlotByCartaoFechadura(@RequestParam String idCartao, @RequestParam Integer idFechadura){
-        return slotService.findSlotByCartaoFechadura(idCartao, idFechadura);
+      return slotService.findSlotByCartaoFechadura(idCartao, idFechadura);
     }
     
 }

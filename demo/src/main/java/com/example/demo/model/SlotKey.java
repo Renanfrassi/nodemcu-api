@@ -21,5 +21,10 @@ public class SlotKey implements Serializable{
     private Permissoes permissoes;
     @Column(name = "dia_semana")
     private int diaSemana;
+
+    public SlotKey(Integer idFechadura, String idCartao, int diaSemana) {
+        this.permissoes = new Permissoes(new PermissoesKey(idFechadura, idCartao));
+        this.diaSemana = diaSemana;
+    }
 }
 

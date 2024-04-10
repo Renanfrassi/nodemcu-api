@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -40,7 +39,7 @@ public class CartaoController {
 
     @PutMapping
     public ResponseEntity updateCartao(@RequestBody Cartao c){
-
+        System.out.println(c);
         return cartao.updateCartao(c);
 
     }

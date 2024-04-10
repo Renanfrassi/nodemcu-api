@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 @Embeddable
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class PermissoesKey implements Serializable{
@@ -23,4 +22,10 @@ public class PermissoesKey implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cartao", referencedColumnName = "id")
     private Cartao cartao;
+    
+    public PermissoesKey(Integer idFechadura, String idCartao) {
+        this.fechadura = new Fechadura(idFechadura);
+        this.cartao = new Cartao(idCartao);
+    }
+    
 }

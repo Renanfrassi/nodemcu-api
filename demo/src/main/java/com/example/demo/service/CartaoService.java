@@ -51,17 +51,13 @@ public class CartaoService {
         try{
 
             if(cartao.findById(c.getId()).stream().count() == 0){
-
                 return ResponseEntity.badRequest().body("Cartão não registrado");
-
             }
 
             return ResponseEntity.ok().body(cartao.save(c));
 
         } catch (Exception e) {
-
             return ResponseEntity.badRequest().body(e.getMessage());
-
         }
      }
 

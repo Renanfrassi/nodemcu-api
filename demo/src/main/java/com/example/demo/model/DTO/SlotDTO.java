@@ -4,18 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class SlotDTO {
 
     private String horaInicio;
-
     private String horaFim;
-
     private int diaSemana;
 
-
+    public SlotDTO(int diaSemana, String horaInicio, String horaFim) {
+        this.diaSemana = diaSemana;
+        this.horaInicio = horaInicio;
+        this.horaFim = horaFim;
+    }
+    
 }
