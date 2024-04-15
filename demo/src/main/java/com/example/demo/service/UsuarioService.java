@@ -151,7 +151,6 @@ public class UsuarioService{
 
             UsuarioSlotDTO usuarioSlotDTO = usuarioRepository.findUsuarioPermissaoId(idUsuario, idCartao);
             List<SlotDTO> slots = usuarioRepository.findSlotsByUsuarioAndCartao(idUsuario, idCartao);
-            System.out.println(slots);
 
             usuarioSlotDTO.setListaSlot(slots);
 

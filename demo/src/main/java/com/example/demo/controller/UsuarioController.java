@@ -57,21 +57,14 @@ public class UsuarioController {
 
     @GetMapping("slot")
     public ResponseEntity findUsuarioPermissaoId(@RequestParam Integer idUsuario,@RequestParam String idCartao){
-        //System.out.println("7777777777777777");
-
-        //System.out.println(idUsuario);
-        //System.out.println(idCartao);
-
         ResponseEntity t = usuarioService.findUsuarioPermissaoId(idUsuario, idCartao);
         return t;
     }
 
     @PutMapping("slot")
     public ResponseEntity updateSlot(@RequestParam Integer idUsuario, @RequestBody UsuarioSlotDTO usuarioSlotDTO){
-        ResponseEntity t =  usuarioService.updateSlotUsuario(idUsuario,usuarioSlotDTO);
-        System.out.println("**********************");
-        System.out.println(t);
-        return t;
+        ResponseEntity updatedSlot =  usuarioService.updateSlotUsuario(idUsuario,usuarioSlotDTO);
+        return updatedSlot;
     }
 
 }

@@ -39,7 +39,6 @@ public class CartaoController {
 
     @PutMapping
     public ResponseEntity updateCartao(@RequestBody Cartao c){
-        System.out.println(c);
         return cartao.updateCartao(c);
 
     }
