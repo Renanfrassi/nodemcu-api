@@ -33,10 +33,13 @@ public class FechaduraService {
         }
     }
 
-    public String deleteFechadura(Integer id){
-        fechadura.deleteById(id);
-
-        return "Deletado com sucesso";
+    public ResponseEntity deleteFechadura(Integer id){
+        try {
+            fechadura.deleteById(id);
+            return ResponseEntity.ok().body(fechadura.findAll());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     public ResponseEntity updateFechadura(Fechadura f){
@@ -45,7 +48,7 @@ public class FechaduraService {
 
             if(fechadura.findById(f.getId()).stream().count() == 0){
 
-                return ResponseEntity.badRequest().body("Fechadura não registrada");
+                return ResponseEntity.badRequest().body("Fechadura não Registrada");
 
             }
 
@@ -56,6 +59,10 @@ public class FechaduraService {
             return ResponseEntity.badRequest().body(e.getMessage());
 
         }
+     }
+
+     public Iterable<Fechadura> getAllFechadura(){
+        return fechadura.findAll();
      }
 
     public Optional<Fechadura> findById(Integer id){

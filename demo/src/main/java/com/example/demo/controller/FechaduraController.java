@@ -40,7 +40,7 @@ public class FechaduraController {
     }
 
     @DeleteMapping
-    public String deleteFechadura(@RequestParam Integer id){
-       return fechadura.deleteFechadura(id);
+    public ResponseEntity deleteFechadura(@RequestParam Integer idFechadura){
+       return fechadura.deleteFechadura(idFechadura);
     }
 }

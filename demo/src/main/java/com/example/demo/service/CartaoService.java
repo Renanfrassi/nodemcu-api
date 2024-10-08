@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Cartao;
 import com.example.demo.model.DTO.ListUsuariosDTO;
+import com.example.demo.model.Fechadura;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.CartaoRepository;
 
@@ -19,6 +20,15 @@ import java.util.Optional;
 public class CartaoService {
     @Autowired
     private CartaoRepository cartao;
+    @Autowired
+    private SlotService slot;
+    @Autowired
+    private PermissoesService permissao;
+    @Autowired
+    private PosseCartaoService posseCartao;
+
+    @Autowired
+    private FechaduraService fechadura;
 
     public ResponseEntity findAll(){
 
@@ -69,7 +79,30 @@ public class CartaoService {
         return cartao.findById(id);
      }
 
+
     public Iterable<Cartao> seachPosseId(Integer id){
         return cartao.seachPosseId(id);
+    }
+
+    public ResponseEntity deleteCartaoPossePermissao(String idCartao, Integer idUsuario){
+        try{
+
+            fechadura.getAllFechadura().forEach(item -> {
+                slot.deleteSlotByFechaduraCartao(item, cartao.findById(idCartao).get());
+            });
+
+            permissao.deletePermissaoByCartao(idCartao);
+
+            posseCartao.deletePosseCartaoByUsuarioCartao(idCartao, idUsuario);
+
+            cartao.deleteById(idCartao);
+
+            return ResponseEntity.ok().body(cartao.seachPosseId(idUsuario));
+
+        } catch (Exception e) {
+
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
     }
 }

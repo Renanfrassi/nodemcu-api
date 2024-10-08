@@ -46,10 +46,7 @@ public class CartaoController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteCartao(@RequestParam String id){
-
-        cartao.deleteCartao(id);
-        return ResponseEntity.noContent().build();
-
+    public ResponseEntity deleteCartao(@RequestParam String idCartao, @RequestParam Integer idUsuario){
+        return cartao.deleteCartaoPossePermissao(idCartao, idUsuario);
     }
 }

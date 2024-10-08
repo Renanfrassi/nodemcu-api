@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 
@@ -41,9 +42,21 @@ public class SlotService {
     }
 
     public String deleteSlot(String id){
-        // slot.deleteById(id);
+//        slot.deleteById(id);
 
         return "Deletado com sucesso";
+    }
+
+    @Transactional
+    public ResponseEntity deleteSlotByFechaduraCartao(Fechadura f, Cartao c){
+        try {
+
+            slot.deleteSlotByFechaduraCartao(c.getId(), f.getId());
+            return ResponseEntity.ok().body(slot.findAll());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String updateSlot(Slot c){
