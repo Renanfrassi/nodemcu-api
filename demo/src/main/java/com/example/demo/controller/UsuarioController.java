@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.DTO.FilterDTO;
 import com.example.demo.model.DTO.UsuarioSlotDTO;
 import com.example.demo.model.Usuario;
 import com.example.demo.service.UsuarioService;
@@ -42,19 +43,28 @@ public class UsuarioController {
     public ResponseEntity addSlot(@RequestBody UsuarioSlotDTO usuarioSlotDTO){
         return usuarioService.addSlot(usuarioSlotDTO);
     }
+
+    @PutMapping("slot")
+    public ResponseEntity updateSlot(@RequestBody UsuarioSlotDTO usuarioSlotDTO){
+        return usuarioService.updateSlot(usuarioSlotDTO);
+    }
+
     @PutMapping
     public ResponseEntity updateUsuario(@RequestBody Usuario u){
       return usuarioService.updateUsuario(u);
     }
 
     @DeleteMapping
-    public String deleteUsuario(@RequestParam int id){
-       return usuarioService.deleteUsuario(id);
+    public ResponseEntity deleteUsuario(@RequestParam Integer id){
+       return usuarioService.deleteUsuarioPosse(id);
     }
 
     @GetMapping("slot")
-    public ResponseEntity findUsuarioPermissaoId(@RequestParam Integer idUsuario,@RequestParam String idCartao){
-        return usuarioService.findUsuarioPermissaoId(idUsuario, idCartao);
+    public ResponseEntity findUsuarioSlot(@RequestParam Integer idUsuario, @RequestParam String idCartao, @RequestParam Integer idFechadura){
+        FilterDTO filter = new FilterDTO(idCartao, idFechadura, idUsuario);
+
+        return usuarioService.findUsuarioSlot(filter);
     }
+
 
 }

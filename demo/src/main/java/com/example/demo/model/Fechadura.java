@@ -24,6 +24,9 @@ public class Fechadura implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "nome")
+    private String nome;
+
     @Column(name = "descricao")
     private String descricao;
 

@@ -28,19 +28,16 @@ public class Usuario implements Serializable{
     private String nome;
 
     @Column(name = "idade")
-    private int idade;
+    private Integer idade;
     
     @Column(name = "telefone")
-    private int telefone;
+    private String telefone;
 
     @Column(name = "matricula")
     private String matricula;
 
     @Column(name = "data_nascimento")
     private Date dataNasc;
-
-    @Column(name = "senha")
-    private String senha;
 
     @Column(name = "email")
     private String email;

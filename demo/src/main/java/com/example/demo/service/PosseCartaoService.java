@@ -1,17 +1,16 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Cartao;
+import com.example.demo.model.*;
 import com.example.demo.model.DTO.PosseCartaoDTO;
-import com.example.demo.model.PosseCartao;
-import com.example.demo.model.PosseCartaoKey;
-import com.example.demo.model.Usuario;
 import com.example.demo.repository.CartaoRepository;
 import com.example.demo.repository.PosseCartaoRepository;
 
 import com.example.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.util.Optional;
@@ -110,5 +109,20 @@ public class PosseCartaoService {
     
      }
 
+    public PosseCartaoDTO findPosseCartaoByUsuarioCartao(String idCartao, Integer idUsuario){
+        return posseCartao.findPosseCartaoByUsuarioCartao(idCartao, idUsuario);
+    }
+
+    @Transactional
+    public ResponseEntity deletePosseCartaoByUsuarioCartao(String idCartao, Integer idUsuario){
+        try{
+            posseCartao.deletePosseCartaoByUsuarioCartao(idCartao, idUsuario);
+            return ResponseEntity.ok().body(posseCartao.findAll());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
 }
