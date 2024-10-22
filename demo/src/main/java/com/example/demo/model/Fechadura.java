@@ -30,4 +30,8 @@ public class Fechadura implements Serializable{
     @Column(name = "descricao")
     private String descricao;
 
+    public Fechadura(String nome, String descricao) {
+        this.nome = nome;
+        this.descricao = descricao;
+    }
 }

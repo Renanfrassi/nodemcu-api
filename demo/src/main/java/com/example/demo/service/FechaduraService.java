@@ -1,9 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Cartao;
+import com.example.demo.model.DTO.FechaduraDTO;
 import com.example.demo.model.Fechadura;
 import com.example.demo.repository.FechaduraRepository;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,56 +17,66 @@ public class FechaduraService {
     @Autowired
     private FechaduraRepository fechadura;
 
-    public ResponseEntity findAll(){
-        try{
-            return ResponseEntity.ok().body(fechadura.findAll());
-
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Iterable<Fechadura> findAll(){
+            return fechadura.findAll();
     }
 
-    public ResponseEntity addFechadura(Fechadura f){
-        try {
-            return ResponseEntity.created(URI.create("./fechadura")).body(fechadura.save(f));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+    public FechaduraDTO addFechadura(FechaduraDTO f) throws Exception {
 
-    public ResponseEntity deleteFechadura(Integer id){
-        try {
-            fechadura.deleteById(id);
-            return ResponseEntity.ok().body(fechadura.findAll());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    public ResponseEntity updateFechadura(Fechadura f){
-
-        try{
-
-            if(fechadura.findById(f.getId()).stream().count() == 0){
-
-                return ResponseEntity.badRequest().body("Fechadura não Registrada");
-
+            if(f.getNome() == null){
+                throw new Exception("O nome da Fechadura deverá ser preenchido!");
+            }
+            if(f.getDescricao() == null){
+                throw new Exception("A descrição da Fechadura deverá ser preenchida!");
             }
 
-            return ResponseEntity.ok().body(fechadura.save(f));
+            fechadura.save(new Fechadura(f.getNome(), f.getDescricao()));
 
-        } catch (Exception e) {
+            return f;
 
-            return ResponseEntity.badRequest().body(e.getMessage());
+    }
 
-        }
-     }
+    public Iterable<Fechadura> deleteFechadura(Integer id) throws Exception, ConstraintViolationException {
 
-     public Iterable<Fechadura> getAllFechadura(){
+            fechadura.deleteById(id);
+            return fechadura.findAll();
+
+    }
+
+    public FechaduraDTO updateFechadura(FechaduraDTO fDTO) throws Exception {
+
+
+            if(fDTO.getNome() == null){
+                throw new Exception("O nome da Fechadura deverá ser preenchido!");
+            }
+            if(fDTO.getDescricao() == null){
+                throw new Exception("A descrição da Fechadura deverá ser preenchida!");
+            }
+
+            Optional<Fechadura> f = fechadura.findById(fDTO.getId());
+
+            if(f.isEmpty()){
+                throw new Exception("Fechadura não Registrada");
+            }
+
+            // Atualize os campos da fechadura
+            Fechadura fechaduraExistente = f.get();
+            fechaduraExistente.setNome(fDTO.getNome());
+            fechaduraExistente.setDescricao(fDTO.getDescricao());
+
+            fechadura.save(fechaduraExistente);
+
+            return fDTO;
+
+
+    }
+
+
+    public Iterable<Fechadura> getAllFechadura()  throws Exception {
         return fechadura.findAll();
      }
 
-    public Optional<Fechadura> findById(Integer id){
+    public Optional<Fechadura> findById(Integer id)  throws Exception {
         return fechadura.findById(id);
     }
 

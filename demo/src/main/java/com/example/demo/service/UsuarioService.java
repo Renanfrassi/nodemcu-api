@@ -29,22 +29,39 @@ public class UsuarioService{
 
     @Autowired
     private SlotService slotService;
-    
-    public ResponseEntity findAll(){
-        try{
 
-            Iterable<ListUsuariosDTO> listUsuariosDTOS = usuario.findAllUsuarios();
+    public Iterable<ListUsuariosDTO> findAll() throws Exception{
 
-            listUsuariosDTOS.forEach(item -> { item.setCartoes(cartaoService.seachPosseId(item.getId())); });
-            return ResponseEntity.ok().body(listUsuariosDTOS);
+        Iterable<ListUsuariosDTO> listUsuariosDTOS = usuario.findAllUsuarios();
 
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+        for (ListUsuariosDTO item : listUsuariosDTOS) {
+            item.setCartoes(cartaoService.seachPosseId(item.getId()));
         }
+        return listUsuariosDTOS;
+
     }
 
-    public ResponseEntity addSlot(UsuarioSlotDTO usuarioSlotDTO){
-        try {
+    public UsuarioSlotDTO addSlot(UsuarioSlotDTO usuarioSlotDTO) throws Exception {
+
+            if(usuarioSlotDTO.getIdCartao() == null){
+                throw new Exception("O número do Cartão não pode ser vazio!");
+            }
+
+            if(usuarioSlotDTO.getIdFechadura() == null){
+                throw new Exception("A fechadura não pode ser vazia!");
+            }
+
+            if(usuarioSlotDTO.getDataInicio() == null){
+                throw new Exception("A Data de Início não pode ser vazia!");
+            }
+
+            if(usuarioSlotDTO.getDataFim() == null){
+                throw new Exception("A Data Final não pode ser vazia!");
+            }
+
+            if(usuarioSlotDTO.getDataInicio().after(usuarioSlotDTO.getDataFim())){
+                throw new Exception("A Data de Início não pode ser superior que a Data Fim!");
+            }
 
             cartaoService.addCartao(new Cartao(usuarioSlotDTO.getIdCartao(), true));
 
@@ -52,38 +69,42 @@ public class UsuarioService{
 
             permissoesService.addPermissoes(new PermissoesDTO(usuarioSlotDTO.getIdFechadura(), usuarioSlotDTO.getIdCartao()));
 
-            usuarioSlotDTO.getListaSlot().forEach(
-                    item -> {
-                        PermissoesKey chave = new PermissoesKey();
-                        chave.setFechadura(fechaduraService.findById(usuarioSlotDTO.getIdFechadura()).get());
-                        chave.setCartao(cartaoService.findById(usuarioSlotDTO.getIdCartao()).get());
-                        Permissoes p = new Permissoes();
-                        p.setId(chave);
 
-                        SlotKey slotKey = new SlotKey(p,item.getDiaSemana()); // Suponha que você tenha uma instância de SlotKey ou adapte isso conforme necessário
-                        Slot slot = new Slot();
-                        slot.setId(slotKey); // Atribua a chave primária composta // Atribua um valor para o atributo diaSemana
-                        slot.setHoraInicio(item.getHoraInicio()); // Atribua um valor para o atributo horaInicio
-                        slot.setHoraFim(item.getHoraFim()); // Atribua um valor para o atributo horaFim
+        for (SlotDTO item : usuarioSlotDTO.getListaSlot()) {
+            PermissoesKey chave = new PermissoesKey();
+            chave.setFechadura(fechaduraService.findById(usuarioSlotDTO.getIdFechadura()).get());
+            chave.setCartao(cartaoService.findById(usuarioSlotDTO.getIdCartao()).get());
+            Permissoes p = new Permissoes();
+            p.setId(chave);
 
-                        slotService.addSlot(slot);
-                    }
-            );
+            SlotKey slotKey = new SlotKey(p, item.getDiaSemana()); // Suponha que você tenha uma instância de SlotKey ou adapte isso conforme necessário
+            Slot slot = new Slot();
+            slot.setId(slotKey); // Atribua a chave primária composta // Atribua um valor para o atributo diaSemana
+            slot.setHoraInicio(item.getHoraInicio()); // Atribua um valor para o atributo horaInicio
+            slot.setHoraFim(item.getHoraFim()); // Atribua um valor para o atributo horaFim
 
-            return ResponseEntity.created(URI.create("./usuario/slot")).body(usuarioSlotDTO);
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            slotService.addSlot(slot);
         }
+
+        return usuarioSlotDTO;
+
     }
 
-    public ResponseEntity addUsuario(Usuario u){
+    public Usuario addUsuario(Usuario u) throws Exception {
 
-        try {
-            return ResponseEntity.created(URI.create("./usuario")).body(usuario.save(u));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+            if(u.getNome() == null){
+                throw new Exception("O nome não pode ser vazio!");
+            }
+
+            if(u.getMatricula() == null){
+                throw new Exception("A matrícula não pode ser vazia!");
+            }
+
+            if(u.getDataNasc() == null){
+                throw new Exception("A data de nascimento não pode ser vazia!");
+            }
+            usuario.save(u);
+            return u;
 
     }
 
@@ -93,23 +114,28 @@ public class UsuarioService{
         return "Deletado com sucesso";
     }
 
-    public ResponseEntity updateUsuario(Usuario u){
+    public Usuario updateUsuario(Usuario u) throws Exception {
 
-        try{
+            if(u.getNome() == null){
+                throw new Exception("O nome não pode ser vazio!");
+            }
+
+            if(u.getMatricula() == null){
+                throw new Exception("A matrícula não pode ser vazia!");
+            }
+
+            if(u.getDataNasc() == null){
+                throw new Exception("A data de nascimento não pode ser vazia!");
+            }
 
             if(usuario.findById(u.getId()).stream().count() == 0){
 
-                return ResponseEntity.badRequest().body("Usuário não registrado");
+                throw new Exception("Usuário não registrado");
 
             }
+            usuario.save(u);
+            return u;
 
-            return ResponseEntity.ok().body(usuario.save(u));
-
-        } catch (Exception e) {
-
-            return ResponseEntity.badRequest().body(e.getMessage());
-
-        }
      }
 
     public ResponseEntity findUsuarioById(Integer id){
@@ -140,8 +166,7 @@ public class UsuarioService{
         }
     }
 
-    public ResponseEntity findUsuarioSlot(FilterDTO filter){
-        try {
+    public UsuarioSlotDTO findUsuarioSlot(FilterDTO filter) throws Exception {
             UsuarioSlotDTO usuarioSlotDTO = new UsuarioSlotDTO();
 
             PosseCartaoDTO posseCartaoDTO = posseCartaoService.findPosseCartaoByUsuarioCartao(filter.getIdCartao(), filter.getIdUsuario());
@@ -154,15 +179,32 @@ public class UsuarioService{
 
             usuarioSlotDTO.setListaSlot(slotService.findSlotByCartaoFechadura(filter.getIdCartao(), filter.getIdFechadura()));
 
-            return ResponseEntity.ok().body(usuarioSlotDTO);
-        } catch (java.lang.Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+            return usuarioSlotDTO;
 
     }
 
-    public ResponseEntity updateSlot(UsuarioSlotDTO usuarioSlotDTO){
-        try {
+    public UsuarioSlotDTO updateSlot(UsuarioSlotDTO usuarioSlotDTO) throws Exception {
+
+            if(usuarioSlotDTO.getIdCartao() == null){
+                throw new Exception("O número do Cartão não pode ser vazio!");
+            }
+
+            if(usuarioSlotDTO.getDataInicio() == null){
+                throw new Exception("A Data de Início não pode ser vazia!");
+            }
+
+            if(usuarioSlotDTO.getDataFim() == null){
+                throw new Exception("A Data Final não pode ser vazia!");
+            }
+
+            if(usuarioSlotDTO.getDataInicio().after(usuarioSlotDTO.getDataFim())){
+                throw new Exception("A Data de Início não pode ser superior que a Data Fim!");
+            }
+
+            if(usuarioSlotDTO.getIdFechadura() == null){
+                throw new Exception("A fechadura não pode ser vazia!");
+            }
+
 
             cartaoService.addCartao(new Cartao(usuarioSlotDTO.getIdCartao(), true));
 
@@ -172,48 +214,38 @@ public class UsuarioService{
 
             slotService.deleteSlotByFechaduraCartao(fechaduraService.findById(usuarioSlotDTO.getIdFechadura()).get(), cartaoService.findById(usuarioSlotDTO.getIdCartao()).get());
 
-            usuarioSlotDTO.getListaSlot().forEach(
-                    item -> {
-                        PermissoesKey chave = new PermissoesKey();
-                        chave.setFechadura(fechaduraService.findById(usuarioSlotDTO.getIdFechadura()).get());
-                        chave.setCartao(cartaoService.findById(usuarioSlotDTO.getIdCartao()).get());
-                        Permissoes p = new Permissoes();
-                        p.setId(chave);
+        for (SlotDTO item : usuarioSlotDTO.getListaSlot()) {
+            PermissoesKey chave = new PermissoesKey();
+            chave.setFechadura(fechaduraService.findById(usuarioSlotDTO.getIdFechadura()).get());
+            chave.setCartao(cartaoService.findById(usuarioSlotDTO.getIdCartao()).get());
+            Permissoes p = new Permissoes();
+            p.setId(chave);
 
-                        SlotKey slotKey = new SlotKey(p,item.getDiaSemana()); // Suponha que você tenha uma instância de SlotKey ou adapte isso conforme necessário
-                        Slot slot = new Slot();
-                        slot.setId(slotKey); // Atribua a chave primária composta // Atribua um valor para o atributo diaSemana
-                        slot.setHoraInicio(item.getHoraInicio()); // Atribua um valor para o atributo horaInicio
-                        slot.setHoraFim(item.getHoraFim()); // Atribua um valor para o atributo horaFim
+            SlotKey slotKey = new SlotKey(p, item.getDiaSemana()); // Suponha que você tenha uma instância de SlotKey ou adapte isso conforme necessário
+            Slot slot = new Slot();
+            slot.setId(slotKey); // Atribua a chave primária composta // Atribua um valor para o atributo diaSemana
+            slot.setHoraInicio(item.getHoraInicio()); // Atribua um valor para o atributo horaInicio
+            slot.setHoraFim(item.getHoraFim()); // Atribua um valor para o atributo horaFim
 
-                        slotService.addSlot(slot);
-                    }
-            );
-
-            return ResponseEntity.created(URI.create("./usuario/slot")).body(usuarioSlotDTO);
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            slotService.addSlot(slot);
         }
+
+        return usuarioSlotDTO;
+
     }
 
-    public ResponseEntity deleteUsuarioPosse(Integer idUsuario){
+    public Iterable<Usuario> deleteUsuarioPosse(Integer idUsuario) throws Exception{
 
-        try{
             Iterable<Cartao> cartaos = cartaoService.seachPosseId(idUsuario);
 
-            cartaos.forEach(cartao -> {
-                cartaoService.deleteCartaoPossePermissao(cartao.getId(), idUsuario);
-            });
-
-            usuario.deleteById(idUsuario);
-
-            return ResponseEntity.ok().body(usuario.findAll());
-
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        for (Cartao cartao : cartaos) {
+            cartaoService.deleteCartaoPossePermissao(cartao.getId(), idUsuario);
         }
+
+        usuario.deleteById(idUsuario);
+
+            return usuario.findAll();
+
 
     }
 

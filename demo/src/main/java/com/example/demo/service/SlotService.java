@@ -30,15 +30,9 @@ public class SlotService {
         return slot.findAll();
     }
 
-    public ResponseEntity addSlot(Slot s){
-
-        try {
-
-            return ResponseEntity.created(URI.create("./slot")).body(slot.save(s));
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Slot addSlot(Slot s) throws Exception {
+            slot.save(s);
+            return s;
     }
 
     public String deleteSlot(String id){
@@ -48,15 +42,11 @@ public class SlotService {
     }
 
     @Transactional
-    public ResponseEntity deleteSlotByFechaduraCartao(Fechadura f, Cartao c){
-        try {
+    public Iterable<Slot> deleteSlotByFechaduraCartao(Fechadura f, Cartao c) throws Exception{
 
             slot.deleteSlotByFechaduraCartao(c.getId(), f.getId());
-            return ResponseEntity.ok().body(slot.findAll());
+            return slot.findAll();
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public String updateSlot(Slot c){
