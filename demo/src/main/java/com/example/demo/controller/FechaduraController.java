@@ -39,7 +39,7 @@ public class FechaduraController {
     @PostMapping
     public ResponseEntity addFechadura(@RequestBody FechaduraDTO f){
         try {
-            return ResponseEntity.created(URI.create("./fechadura")).body(fechadura.addFechadura(f));
+            return ResponseEntity.created(URI.create("./fechadura'")).body(fechadura.addFechadura(f));
 
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
