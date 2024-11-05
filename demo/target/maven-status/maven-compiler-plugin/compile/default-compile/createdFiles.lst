@@ -1,4 +1,3 @@
-com\example\demo\controller\SlotController.class
 com\example\demo\DemoApplication.class
 com\example\demo\model\DTO\PermissoesDTO.class
 com\example\demo\model\Usuario.class
@@ -7,8 +6,10 @@ com\example\demo\service\PermissoesService.class
 com\example\demo\model\DTO\SlotDTO.class
 com\example\demo\controller\FechaduraController.class
 com\example\demo\model\DTO\ListUsuariosDTO.class
+com\example\demo\model\DTO\SlotCartaoDTO.class
 com\example\demo\service\UsuarioService.class
 com\example\demo\model\Slot.class
+com\example\demo\model\DTO\FechaduraDTO.class
 com\example\demo\model\DTO\PosseCartaoDTO.class
 com\example\demo\repository\SlotRepository.class
 com\example\demo\model\Fechadura.class
@@ -16,7 +17,6 @@ com\example\demo\service\PosseCartaoService.class
 com\example\demo\model\PosseCartao.class
 com\example\demo\model\DTO\FilterDTO.class
 com\example\demo\service\CartaoService.class
-com\example\demo\controller\PosseCartaoController.class
 com\example\demo\service\SlotService.class
 com\example\demo\model\DTO\ListPosseCartaoDTO.class
 com\example\demo\repository\PosseCartaoRepository.class
@@ -30,6 +30,5 @@ com\example\demo\repository\UsuarioRepository.class
 com\example\demo\model\Cartao.class
 com\example\demo\model\PermissoesKey.class
 com\example\demo\controller\UsuarioController.class
-com\example\demo\controller\PermissoesController.class
 com\example\demo\model\PosseCartaoKey.class
 com\example\demo\repository\FechaduraRepository.class

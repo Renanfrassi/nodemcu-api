@@ -66,9 +66,6 @@ public class UsuarioController {
 
     @PutMapping("slot")
     public ResponseEntity updateSlot(@RequestBody UsuarioSlotDTO usuarioSlotDTO){
-<<<<<<< HEAD
-        return usuarioService.updateSlot(usuarioSlotDTO);
-=======
         try {
             return ResponseEntity.ok().body(usuarioService.updateSlot(usuarioSlotDTO));
 
@@ -76,7 +73,6 @@ public class UsuarioController {
             return ResponseEntity.badRequest().body(e.getMessage());
 
         }
->>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
 
     @PutMapping
@@ -91,32 +87,23 @@ public class UsuarioController {
 
     @DeleteMapping
     public ResponseEntity deleteUsuario(@RequestParam Integer id){
-<<<<<<< HEAD
-       return usuarioService.deleteUsuarioPosse(id);
-=======
         try {
             return ResponseEntity.ok().body(usuarioService.deleteUsuarioPosse(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
 
         }
->>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
 
     @GetMapping("slot")
     public ResponseEntity findUsuarioSlot(@RequestParam Integer idUsuario, @RequestParam String idCartao, @RequestParam Integer idFechadura){
         FilterDTO filter = new FilterDTO(idCartao, idFechadura, idUsuario);
-<<<<<<< HEAD
-
-        return usuarioService.findUsuarioSlot(filter);
-=======
         try {
             return ResponseEntity.ok().body(usuarioService.findUsuarioSlot(filter));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
 
         }
->>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
 
 

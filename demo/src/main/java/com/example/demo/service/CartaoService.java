@@ -29,12 +29,6 @@ public class CartaoService {
     private PermissoesService permissao;
     @Autowired
     private PosseCartaoService posseCartao;
-<<<<<<< HEAD
-
-    @Autowired
-    private FechaduraService fechadura;
-=======
->>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
 
     @Autowired
     private FechaduraService fechadura;
@@ -84,32 +78,6 @@ public class CartaoService {
      }
 
 
-<<<<<<< HEAD
-    public Iterable<Cartao> seachPosseId(Integer id){
-        return cartao.seachPosseId(id);
-    }
-
-    public ResponseEntity deleteCartaoPossePermissao(String idCartao, Integer idUsuario){
-        try{
-
-            fechadura.getAllFechadura().forEach(item -> {
-                slot.deleteSlotByFechaduraCartao(item, cartao.findById(idCartao).get());
-            });
-
-            permissao.deletePermissaoByCartao(idCartao);
-
-            posseCartao.deletePosseCartaoByUsuarioCartao(idCartao, idUsuario);
-
-            cartao.deleteById(idCartao);
-
-            return ResponseEntity.ok().body(cartao.seachPosseId(idUsuario));
-
-        } catch (Exception e) {
-
-            return ResponseEntity.badRequest().body(e.getMessage());
-
-        }
-=======
     public Iterable<Cartao> seachPosseId(Integer id) throws Exception {
         return cartao.seachPosseId(id);
     }
@@ -128,7 +96,6 @@ public class CartaoService {
 
         return cartao.seachPosseId(idUsuario);
 
->>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
 
     public boolean verifySlot(SlotCartaoDTO dto){

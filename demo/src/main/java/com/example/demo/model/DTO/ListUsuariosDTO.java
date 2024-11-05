@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @AllArgsConstructor
@@ -15,7 +14,6 @@ import java.util.List;
 public class ListUsuariosDTO {
     private Integer id;
 
-    @NotNull(message = "Nome deverá ser preenchido!")
     private String nome;
 
     private String matricula;
