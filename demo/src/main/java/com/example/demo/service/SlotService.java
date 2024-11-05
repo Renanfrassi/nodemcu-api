@@ -42,11 +42,23 @@ public class SlotService {
     }
 
     @Transactional
+<<<<<<< HEAD
+    public ResponseEntity deleteSlotByFechaduraCartao(Fechadura f, Cartao c){
+        try {
+
+            slot.deleteSlotByFechaduraCartao(c.getId(), f.getId());
+            return ResponseEntity.ok().body(slot.findAll());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+=======
     public Iterable<Slot> deleteSlotByFechaduraCartao(Fechadura f, Cartao c) throws Exception{
 
             slot.deleteSlotByFechaduraCartao(c.getId(), f.getId());
             return slot.findAll();
 
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
 
     public String updateSlot(Slot c){

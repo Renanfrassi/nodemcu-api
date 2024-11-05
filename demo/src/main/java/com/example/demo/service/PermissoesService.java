@@ -78,9 +78,20 @@ public class PermissoesService{
      }
 
     @Transactional
+<<<<<<< HEAD
+    public ResponseEntity deletePermissaoByCartao(String idCartao){
+        try{
+            permissao.deletePermissaoByCartao(idCartao);
+            return ResponseEntity.ok().body(permissao.findAll());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+=======
     public Iterable<Permissoes> deletePermissaoByCartao(String idCartao) throws Exception {
         permissao.deletePermissaoByCartao(idCartao);
         return permissao.findAll();
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
 
     }
 

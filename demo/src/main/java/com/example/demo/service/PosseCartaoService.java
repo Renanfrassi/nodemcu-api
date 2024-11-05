@@ -119,11 +119,22 @@ public class PosseCartaoService {
     }
 
     @Transactional
+<<<<<<< HEAD
+    public ResponseEntity deletePosseCartaoByUsuarioCartao(String idCartao, Integer idUsuario){
+        try{
+            posseCartao.deletePosseCartaoByUsuarioCartao(idCartao, idUsuario);
+            return ResponseEntity.ok().body(posseCartao.findAll());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+=======
     public Iterable<PosseCartao> deletePosseCartaoByUsuarioCartao(String idCartao, Integer idUsuario) throws Exception{
             posseCartao.deletePosseCartaoByUsuarioCartao(idCartao, idUsuario);
             return posseCartao.findAll();
 
 
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
 
     }
 

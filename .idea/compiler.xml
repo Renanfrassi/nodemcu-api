@@ -14,6 +14,10 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+<<<<<<< HEAD
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+=======
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
         </processorPath>
         <module name="demo" />
       </profile>

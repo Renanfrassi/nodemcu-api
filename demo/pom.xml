@@ -74,8 +74,13 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version> <!-- Recomenda-se usar uma versão mais nova -->
         <configuration>
+<<<<<<< HEAD
+          <source>9</source>
+          <target>9</target>
+=======
           <source>${java.version}</source>
           <target>${java.version}</target>
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
           <annotationProcessorPaths>
             <path>
               <groupId>org.projectlombok</groupId>

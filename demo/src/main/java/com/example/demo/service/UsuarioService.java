@@ -70,6 +70,13 @@ public class UsuarioService{
             permissoesService.addPermissoes(new PermissoesDTO(usuarioSlotDTO.getIdFechadura(), usuarioSlotDTO.getIdCartao()));
 
 
+<<<<<<< HEAD
+                        SlotKey slotKey = new SlotKey(p,item.getDiaSemana()); // Suponha que você tenha uma instância de SlotKey ou adapte isso conforme necessário
+                        Slot slot = new Slot();
+                        slot.setId(slotKey); // Atribua a chave primária composta // Atribua um valor para o atributo diaSemana
+                        slot.setHoraInicio(item.getHoraInicio()); // Atribua um valor para o atributo horaInicio
+                        slot.setHoraFim(item.getHoraFim()); // Atribua um valor para o atributo horaFim
+=======
         for (SlotDTO item : usuarioSlotDTO.getListaSlot()) {
             PermissoesKey chave = new PermissoesKey();
             chave.setFechadura(fechaduraService.findById(usuarioSlotDTO.getIdFechadura()).get());
@@ -82,6 +89,7 @@ public class UsuarioService{
             slot.setId(slotKey); // Atribua a chave primária composta // Atribua um valor para o atributo diaSemana
             slot.setHoraInicio(item.getHoraInicio()); // Atribua um valor para o atributo horaInicio
             slot.setHoraFim(item.getHoraFim()); // Atribua um valor para o atributo horaFim
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
 
             slotService.addSlot(slot);
         }
@@ -166,7 +174,12 @@ public class UsuarioService{
         }
     }
 
+<<<<<<< HEAD
+    public ResponseEntity findUsuarioSlot(FilterDTO filter){
+        try {
+=======
     public UsuarioSlotDTO findUsuarioSlot(FilterDTO filter) throws Exception {
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
             UsuarioSlotDTO usuarioSlotDTO = new UsuarioSlotDTO();
 
             PosseCartaoDTO posseCartaoDTO = posseCartaoService.findPosseCartaoByUsuarioCartao(filter.getIdCartao(), filter.getIdUsuario());
@@ -179,6 +192,17 @@ public class UsuarioService{
 
             usuarioSlotDTO.setListaSlot(slotService.findSlotByCartaoFechadura(filter.getIdCartao(), filter.getIdFechadura()));
 
+<<<<<<< HEAD
+            return ResponseEntity.ok().body(usuarioSlotDTO);
+        } catch (java.lang.Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+    public ResponseEntity updateSlot(UsuarioSlotDTO usuarioSlotDTO){
+        try {
+=======
             return usuarioSlotDTO;
 
     }
@@ -205,6 +229,7 @@ public class UsuarioService{
                 throw new Exception("A fechadura não pode ser vazia!");
             }
 
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
 
             cartaoService.addCartao(new Cartao(usuarioSlotDTO.getIdCartao(), true));
 
@@ -214,6 +239,51 @@ public class UsuarioService{
 
             slotService.deleteSlotByFechaduraCartao(fechaduraService.findById(usuarioSlotDTO.getIdFechadura()).get(), cartaoService.findById(usuarioSlotDTO.getIdCartao()).get());
 
+<<<<<<< HEAD
+            usuarioSlotDTO.getListaSlot().forEach(
+                    item -> {
+                        PermissoesKey chave = new PermissoesKey();
+                        chave.setFechadura(fechaduraService.findById(usuarioSlotDTO.getIdFechadura()).get());
+                        chave.setCartao(cartaoService.findById(usuarioSlotDTO.getIdCartao()).get());
+                        Permissoes p = new Permissoes();
+                        p.setId(chave);
+
+                        SlotKey slotKey = new SlotKey(p,item.getDiaSemana()); // Suponha que você tenha uma instância de SlotKey ou adapte isso conforme necessário
+                        Slot slot = new Slot();
+                        slot.setId(slotKey); // Atribua a chave primária composta // Atribua um valor para o atributo diaSemana
+                        slot.setHoraInicio(item.getHoraInicio()); // Atribua um valor para o atributo horaInicio
+                        slot.setHoraFim(item.getHoraFim()); // Atribua um valor para o atributo horaFim
+
+                        slotService.addSlot(slot);
+                    }
+            );
+
+            return ResponseEntity.created(URI.create("./usuario/slot")).body(usuarioSlotDTO);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    public ResponseEntity deleteUsuarioPosse(Integer idUsuario){
+
+        try{
+            Iterable<Cartao> cartaos = cartaoService.seachPosseId(idUsuario);
+
+            cartaos.forEach(cartao -> {
+                cartaoService.deleteCartaoPossePermissao(cartao.getId(), idUsuario);
+            });
+
+            usuario.deleteById(idUsuario);
+
+            return ResponseEntity.ok().body(usuario.findAll());
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+=======
         for (SlotDTO item : usuarioSlotDTO.getListaSlot()) {
             PermissoesKey chave = new PermissoesKey();
             chave.setFechadura(fechaduraService.findById(usuarioSlotDTO.getIdFechadura()).get());
@@ -247,6 +317,7 @@ public class UsuarioService{
             return usuario.findAll();
 
 
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
 
 }

@@ -59,6 +59,9 @@ public class FechaduraController {
 
     @DeleteMapping
     public ResponseEntity deleteFechadura(@RequestParam Integer idFechadura){
+<<<<<<< HEAD
+       return fechadura.deleteFechadura(idFechadura);
+=======
         try {
             return ResponseEntity.ok().body(fechadura.deleteFechadura(idFechadura));
         }catch (ConstraintViolationException e){
@@ -68,6 +71,7 @@ public class FechaduraController {
             return ResponseEntity.badRequest().body(e.getMessage());
 
         }
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
 
 }

@@ -27,6 +27,10 @@ public class CartaoController {
 
 
     @DeleteMapping
+<<<<<<< HEAD
+    public ResponseEntity deleteCartao(@RequestParam String idCartao, @RequestParam Integer idUsuario){
+        return cartao.deleteCartaoPossePermissao(idCartao, idUsuario);
+=======
     public ResponseEntity deleteCartao(@RequestParam String idCartao, @RequestParam Integer idUsuario)  {
         try {
             return ResponseEntity.ok().body(cartao.deleteCartaoPossePermissao(idCartao, idUsuario));
@@ -34,6 +38,7 @@ public class CartaoController {
             return ResponseEntity.badRequest().body(e.getMessage());
 
         }
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
 
     @PostMapping("valida-acesso")
