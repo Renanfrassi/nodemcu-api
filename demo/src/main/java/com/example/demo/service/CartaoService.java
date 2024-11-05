@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 import java.util.TimeZone;
 
@@ -100,7 +101,7 @@ public class CartaoService {
 
     public boolean verifySlot(SlotCartaoDTO dto){
 
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));;
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(dto.getDataAtual());
 
         int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);

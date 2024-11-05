@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.Date;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -37,7 +38,13 @@ public class CartaoController {
     }
 
     @PostMapping("valida-acesso")
-    public ResponseEntity verifySlot(@RequestBody SlotCartaoDTO dto)  {
+    public ResponseEntity verifySlot(@RequestParam String idCartao, @RequestParam Integer idFechadura)  {
+        SlotCartaoDTO dto = new SlotCartaoDTO();
+
+        dto.setIdCartao(idCartao);
+        dto.setIdFechadura(idFechadura);
+        dto.setDataAtual(new Date());
+
         try {
             return ResponseEntity.created(URI.create("./cartao/valida-acesso'")).body(cartao.verifySlot(dto));
         } catch (Exception e) {
