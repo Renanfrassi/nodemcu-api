@@ -37,7 +37,7 @@ public class CartaoController {
         }
     }
 
-    @PostMapping("valida-acesso")
+    @GetMapping("valida-acesso")
     public ResponseEntity verifySlot(@RequestParam String idCartao, @RequestParam Integer idFechadura)  {
         SlotCartaoDTO dto = new SlotCartaoDTO();
 
