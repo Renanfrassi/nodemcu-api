@@ -26,27 +26,28 @@ public class CartaoService {
     private PermissoesService permissao;
     @Autowired
     private PosseCartaoService posseCartao;
+<<<<<<< HEAD
+
+    @Autowired
+    private FechaduraService fechadura;
+=======
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
 
     @Autowired
     private FechaduraService fechadura;
 
-    public ResponseEntity findAll(){
-
-        try{
-            return ResponseEntity.ok().body(cartao.findAll());
-
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Iterable<Cartao> findAll() throws Exception {
+            return cartao.findAll();
     }
 
-    public ResponseEntity addCartao(Cartao c){
-
-        try {
-            return ResponseEntity.created(URI.create("./cartao")).body(cartao.save(new Cartao(c.getId(), c.isStatusEntrada())));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+    public Cartao addCartao(Cartao c) throws Exception {
+        if(c.getId() == null ){
+            throw new Exception("O número do Cartão não poderá ser vazio!");
         }
+
+        cartao.save(new Cartao(c.getId(), c.isStatusEntrada()));
+
+        return c;
 
     }
 
@@ -75,11 +76,12 @@ public class CartaoService {
         }
      }
 
-     public Optional<Cartao> findById(String id){
+     public Optional<Cartao> findById(String id) throws Exception{
         return cartao.findById(id);
      }
 
 
+<<<<<<< HEAD
     public Iterable<Cartao> seachPosseId(Integer id){
         return cartao.seachPosseId(id);
     }
@@ -104,5 +106,25 @@ public class CartaoService {
             return ResponseEntity.badRequest().body(e.getMessage());
 
         }
+=======
+    public Iterable<Cartao> seachPosseId(Integer id) throws Exception {
+        return cartao.seachPosseId(id);
+    }
+
+    public Iterable<Cartao> deleteCartaoPossePermissao(String idCartao, Integer idUsuario) throws Exception{
+
+        for (Fechadura item : fechadura.getAllFechadura()) {
+            slot.deleteSlotByFechaduraCartao(item, cartao.findById(idCartao).get());
+        }
+
+        permissao.deletePermissaoByCartao(idCartao);
+
+        posseCartao.deletePosseCartaoByUsuarioCartao(idCartao, idUsuario);
+
+        cartao.deleteById(idCartao);
+
+        return cartao.seachPosseId(idUsuario);
+
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
 }

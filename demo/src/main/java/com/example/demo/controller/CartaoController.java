@@ -24,29 +24,20 @@ public class CartaoController {
     @Autowired
     private CartaoService cartao;
 
-    @GetMapping
-    public ResponseEntity seachCartao(){
-
-        return cartao.findAll();
-
-    }
-
-    @PostMapping
-    public ResponseEntity addCartao(@RequestBody Cartao c) {
-
-        return cartao.addCartao(c);
-
-    }
-
-    @PutMapping
-    public ResponseEntity updateCartao(@RequestBody Cartao c){
-
-        return cartao.updateCartao(c);
-
-    }
 
     @DeleteMapping
+<<<<<<< HEAD
     public ResponseEntity deleteCartao(@RequestParam String idCartao, @RequestParam Integer idUsuario){
         return cartao.deleteCartaoPossePermissao(idCartao, idUsuario);
+=======
+    public ResponseEntity deleteCartao(@RequestParam String idCartao, @RequestParam Integer idUsuario)  {
+        try {
+            return ResponseEntity.ok().body(cartao.deleteCartaoPossePermissao(idCartao, idUsuario));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
     }
+
 }

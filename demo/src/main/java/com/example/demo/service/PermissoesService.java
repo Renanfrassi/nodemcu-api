@@ -34,18 +34,17 @@ public class PermissoesService{
         }
     }
 
-    public ResponseEntity addPermissoes(PermissoesDTO pDTO){
-        try {
+    public Permissoes addPermissoes(PermissoesDTO pDTO) throws Exception {
 
             if(cartaoService.findById(pDTO.getIdCartao()).stream().count() == 0){
 
-                return ResponseEntity.badRequest().body("Cartão não registrado");
+                throw new Exception("Cartão não registrado");
 
             }
 
             if(fechaduraService.findById(pDTO.getIdFechadura()).stream().count() == 0){
 
-                return ResponseEntity.badRequest().body("Fechadura não registrada");
+                throw new Exception("Fechadura não registrada");
 
             }
 
@@ -56,11 +55,10 @@ public class PermissoesService{
             Permissoes p = new Permissoes();
             p.setId(chave);
 
-            return ResponseEntity.created(URI.create("./permissao")).body(permissao.save(p));
+            permissao.save(p);
 
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+            return p;
+
     }
 
     public String deletePermissoes(String id){
@@ -80,6 +78,7 @@ public class PermissoesService{
      }
 
     @Transactional
+<<<<<<< HEAD
     public ResponseEntity deletePermissaoByCartao(String idCartao){
         try{
             permissao.deletePermissaoByCartao(idCartao);
@@ -88,6 +87,11 @@ public class PermissoesService{
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+=======
+    public Iterable<Permissoes> deletePermissaoByCartao(String idCartao) throws Exception {
+        permissao.deletePermissaoByCartao(idCartao);
+        return permissao.findAll();
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
 
     }
 

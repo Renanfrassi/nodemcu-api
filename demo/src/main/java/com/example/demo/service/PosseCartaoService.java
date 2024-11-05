@@ -36,17 +36,23 @@ public class PosseCartaoService {
         }
     }
 
-    public ResponseEntity addPosseCartao(PosseCartaoDTO pDTO){
-        try {
+    public PosseCartao addPosseCartao(PosseCartaoDTO pDTO) throws Exception {
+
             if(cartaoService.findById(pDTO.getIdCartao()).stream().count() == 0){
 
-                return ResponseEntity.badRequest().body("Cartão não registrado");
+                throw new Exception("Cartão não registrado");
 
             }
 
             if(usuarioService.findById(pDTO.getIdUsuario()).stream().count() == 0){
 
-                return ResponseEntity.badRequest().body("Usuário não registrado");
+                throw new Exception("Usuário não registrado");
+
+            }
+
+            if(pDTO.getDataInicio().after(pDTO.getDataFim())){
+
+                throw new Exception("A Data de Início não pode ser superior que a Data Fim!");
 
             }
 
@@ -60,11 +66,10 @@ public class PosseCartaoService {
             p.setDataFim(pDTO.getDataFim());
 
 
-            return ResponseEntity.created(URI.create("./posse_cartao")).body(posseCartao.save(p));
+            posseCartao.save(p);
 
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+            return p;
+
     }
 
     public String deletePosseCartao(PosseCartaoKey id){
@@ -114,6 +119,7 @@ public class PosseCartaoService {
     }
 
     @Transactional
+<<<<<<< HEAD
     public ResponseEntity deletePosseCartaoByUsuarioCartao(String idCartao, Integer idUsuario){
         try{
             posseCartao.deletePosseCartaoByUsuarioCartao(idCartao, idUsuario);
@@ -122,6 +128,13 @@ public class PosseCartaoService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+=======
+    public Iterable<PosseCartao> deletePosseCartaoByUsuarioCartao(String idCartao, Integer idUsuario) throws Exception{
+            posseCartao.deletePosseCartaoByUsuarioCartao(idCartao, idUsuario);
+            return posseCartao.findAll();
+
+
+>>>>>>> f84a61f0070484aa383bd3b3dca7c5659f386312
 
     }
 
