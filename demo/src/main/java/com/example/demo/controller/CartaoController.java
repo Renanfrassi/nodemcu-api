@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Cartao;
+import com.example.demo.model.DTO.SlotCartaoDTO;
 import com.example.demo.service.CartaoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,16 @@ public class CartaoController {
     public ResponseEntity deleteCartao(@RequestParam String idCartao, @RequestParam Integer idUsuario)  {
         try {
             return ResponseEntity.ok().body(cartao.deleteCartaoPossePermissao(idCartao, idUsuario));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+    }
+
+    @PostMapping("valida-acesso")
+    public ResponseEntity verifySlot(@RequestBody SlotCartaoDTO dto)  {
+        try {
+            return ResponseEntity.created(URI.create("./cartao/valida-acesso'")).body(cartao.verifySlot(dto));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
 

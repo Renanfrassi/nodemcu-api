@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Cartao;
 import com.example.demo.model.DTO.ListUsuariosDTO;
+import com.example.demo.model.DTO.SlotCartaoDTO;
 import com.example.demo.model.Fechadura;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.CartaoRepository;
@@ -11,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.util.Calendar;
 import java.util.Optional;
+import java.util.TimeZone;
 
 /**
  * CartaoService
@@ -94,4 +97,17 @@ public class CartaoService {
         return cartao.seachPosseId(idUsuario);
 
     }
+
+    public boolean verifySlot(SlotCartaoDTO dto){
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));;
+        calendar.setTime(dto.getDataAtual());
+
+        int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
+
+        String horaAtual = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+
+        return slot.verifySlot(dto.getIdCartao(), dto.getIdFechadura(), horaAtual, diaSemana);
+    }
+
 }

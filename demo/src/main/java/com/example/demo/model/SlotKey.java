@@ -13,12 +13,14 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 public class SlotKey implements Serializable{
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
         @JoinColumn(name="id_fechadura", referencedColumnName = "id_fechadura"),
         @JoinColumn(name="id_cartao", referencedColumnName = "id_cartao"),
     })
     private Permissoes permissoes;
+
     @Column(name = "dia_semana")
     private int diaSemana;
 }

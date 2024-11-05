@@ -62,4 +62,11 @@ public class SlotService {
     public Iterable<SlotDTO> findSlotByCartaoFechadura(String idCartao, Integer idFechadura){
         return slot.findSlotByCartaoFechadura(idCartao, idFechadura);
     }
+
+    public boolean verifySlot(String idCartao, Integer idFechadura,
+                              String horaAtual, Integer diaAtual){
+
+        return slot.verifySlot(idCartao, idFechadura, horaAtual, diaAtual) > 0;
+
+    }
 }

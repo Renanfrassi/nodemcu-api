@@ -21,4 +21,14 @@ public interface SlotRepository extends CrudRepository<Slot, SlotKey>{
     @Query("DELETE Slot s where s.id.permissoes.id.fechadura.id = :idFechadura " +
             "AND  s.id.permissoes.id.cartao.id = :idCartao ")
     void deleteSlotByFechaduraCartao(@Param("idCartao") String idCartao, @Param("idFechadura") Integer idFechadura);
+
+    @Query("select count(*) from Slot s, Cartao c " +
+            "where :horaAtual between s.horaInicio and s.horaFim " +
+            "and s.id.diaSemana = :diaAtual " +
+            "and s.id.permissoes.id.cartao.id = :idCartao " +
+            "and s.id.permissoes.id.fechadura.id = :idFechadura " +
+            "and c.id = s.id.permissoes.id.cartao.id " +
+            "and c.statusEntrada is true ")
+    Integer verifySlot(@Param("idCartao") String idCartao, @Param("idFechadura") Integer idFechadura,
+                       @Param("horaAtual") String horaAtual, @Param("diaAtual") Integer diaAtual);
 }
