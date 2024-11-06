@@ -46,7 +46,8 @@ public class CartaoController {
         dto.setDataAtual(new Date());
 
         try {
-            return ResponseEntity.created(URI.create("./cartao/valida-acesso'")).body(cartao.verifySlot(dto));
+            return ResponseEntity.ok().body(cartao.verifySlot(dto));
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
 
