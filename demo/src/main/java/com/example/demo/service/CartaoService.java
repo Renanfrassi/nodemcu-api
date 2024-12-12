@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Cartao;
+import com.example.demo.model.DTO.ArquivoCartaoDTO;
 import com.example.demo.model.DTO.ListUsuariosDTO;
 import com.example.demo.model.DTO.SlotCartaoDTO;
 import com.example.demo.model.DTO.SlotDTO;
@@ -111,24 +112,27 @@ public class CartaoService {
         return slot.verifySlot(dto.getIdCartao(), dto.getIdFechadura(), horaAtual, diaSemana);
     }
 
-    public List<String> generateFileCartao() throws IOException {
+    public List<ArquivoCartaoDTO> generateFileCartao() throws IOException {
         TimeFileHandler handler = new TimeFileHandler();
 
         Iterable<Cartao> cartoes = cartao.findAll();
         String fileName = "";
         List<String> timeRanges = new ArrayList<>();
         List<String> readRanges = null;
+        List<ArquivoCartaoDTO> listaArquivo = new ArrayList<>();
 
         for (Cartao c : cartoes) {
-
+            ArquivoCartaoDTO arquivo = new ArquivoCartaoDTO();
             fileName = c.getId().concat(".txt");
+            arquivo.setFileName(fileName);
             Iterable<SlotDTO> slots = slot.findSlotByCartao(c.getId());
-            timeRanges = new ArrayList<>();
+            timeRanges = inicializaArray();
 
             for (SlotDTO s : slots) {
-                timeRanges.add(s.getHoraInicio() + "-" + s.getHoraFim());
+                timeRanges.add(s.getDiaSemana() - 1,s.getHoraInicio() + "-" + s.getHoraFim());
             }
-
+            arquivo.setListaHorario(timeRanges);
+            listaArquivo.add(arquivo);
             handler.generateFile(fileName, timeRanges);
 
             readRanges = handler.readFile(fileName);
@@ -139,8 +143,19 @@ public class CartaoService {
 
         }
 
-        return readRanges;
+        return listaArquivo;
 
+    }
+
+    private List<String> inicializaArray(){
+
+        List<String> timeRanges = new ArrayList<>();
+
+        for(int i = 0; i < 7; i++){
+            timeRanges.add("");
+        }
+
+        return timeRanges;
 
     }
 
