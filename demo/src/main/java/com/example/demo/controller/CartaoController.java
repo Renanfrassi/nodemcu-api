@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
 
@@ -49,6 +50,18 @@ public class CartaoController {
             return ResponseEntity.ok().body(cartao.verifySlot(dto));
 
         } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+    }
+
+    @GetMapping("gerar-arquivo")
+    public ResponseEntity generateFileCartao(){
+        try {
+
+            return ResponseEntity.ok().body(cartao.generateFileCartao());
+
+        } catch (IOException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
 
         }

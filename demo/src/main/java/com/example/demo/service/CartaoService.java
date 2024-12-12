@@ -3,19 +3,19 @@ package com.example.demo.service;
 import com.example.demo.model.Cartao;
 import com.example.demo.model.DTO.ListUsuariosDTO;
 import com.example.demo.model.DTO.SlotCartaoDTO;
+import com.example.demo.model.DTO.SlotDTO;
 import com.example.demo.model.Fechadura;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.CartaoRepository;
 
+import com.example.demo.utils.TimeFileHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.net.URI;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * CartaoService
@@ -109,6 +109,39 @@ public class CartaoService {
         String horaAtual = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
 
         return slot.verifySlot(dto.getIdCartao(), dto.getIdFechadura(), horaAtual, diaSemana);
+    }
+
+    public List<String> generateFileCartao() throws IOException {
+        TimeFileHandler handler = new TimeFileHandler();
+
+        Iterable<Cartao> cartoes = cartao.findAll();
+        String fileName = "";
+        List<String> timeRanges = new ArrayList<>();
+        List<String> readRanges = null;
+
+        for (Cartao c : cartoes) {
+
+            fileName = c.getId().concat(".txt");
+            Iterable<SlotDTO> slots = slot.findSlotByCartao(c.getId());
+            timeRanges = new ArrayList<>();
+
+            for (SlotDTO s : slots) {
+                timeRanges.add(s.getHoraInicio() + "-" + s.getHoraFim());
+            }
+
+            handler.generateFile(fileName, timeRanges);
+
+            readRanges = handler.readFile(fileName);
+            System.out.println("Conteúdo do arquivo:");
+            for (String range : readRanges) {
+                System.out.println(range);
+            }
+
+        }
+
+        return readRanges;
+
+
     }
 
 }

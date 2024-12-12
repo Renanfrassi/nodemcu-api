@@ -31,4 +31,10 @@ public interface SlotRepository extends CrudRepository<Slot, SlotKey>{
             "and c.statusEntrada is true ")
     Integer verifySlot(@Param("idCartao") String idCartao, @Param("idFechadura") Integer idFechadura,
                        @Param("horaAtual") String horaAtual, @Param("diaAtual") Integer diaAtual);
+
+
+    @Query("select new com.example.demo.model.DTO.SlotDTO(s.horaInicio, s.horaFim, s.id.diaSemana) from Slot s " +
+            "where s.id.permissoes.id.cartao.id  = :idCartao " +
+            " order by s.id.diaSemana")
+    Iterable<SlotDTO> findSlotByCartao(@Param("idCartao") String idCartao);
 }

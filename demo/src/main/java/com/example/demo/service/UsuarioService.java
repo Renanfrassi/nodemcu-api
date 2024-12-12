@@ -174,8 +174,10 @@ public class UsuarioService{
             usuarioSlotDTO.setIdUsuario(filter.getIdUsuario());
             usuarioSlotDTO.setIdCartao(filter.getIdCartao());
 
-            usuarioSlotDTO.setDataInicio(posseCartaoDTO.getDataInicio());
-            usuarioSlotDTO.setDataFim(posseCartaoDTO.getDataFim());
+            if(posseCartaoDTO != null){
+                usuarioSlotDTO.setDataInicio(posseCartaoDTO.getDataInicio());
+                usuarioSlotDTO.setDataFim(posseCartaoDTO.getDataFim());
+            }
 
             usuarioSlotDTO.setListaSlot(slotService.findSlotByCartaoFechadura(filter.getIdCartao(), filter.getIdFechadura()));
 
@@ -202,7 +204,7 @@ public class UsuarioService{
             }
 
             if(usuarioSlotDTO.getIdFechadura() == null){
-                throw new Exception("A fechadura não pode ser vazia!");
+                throw new Exception("A Fechadura não pode ser vazia!");
             }
 
 
